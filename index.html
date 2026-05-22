@@ -1,161 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Digital Reader</title>
-
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#111;
-color:white;
-text-align:center;
-}
-
-.screen{
-display:none;
-padding:40px;
-}
-
-.active{
-display:block;
-}
-
-button{
-padding:12px 20px;
-margin:10px;
-border:none;
-border-radius:8px;
-background:#3498db;
-color:white;
-cursor:pointer;
-font-size:16px;
-}
-
-input{
-padding:10px;
-width:220px;
-border:none;
-border-radius:8px;
-font-size:16px;
-}
-
-.book{
-width:900px;
-height:600px;
-margin:30px auto;
-display:flex;
-background:white;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 0 40px black;
-}
-
-.page{
-width:50%;
-display:flex;
-justify-content:center;
-align-items:center;
-border-right:1px solid #ccc;
-}
-
-.page:last-child{
-border-right:none;
-}
-
-.page img{
-max-width:100%;
-max-height:100%;
-object-fit:contain;
-}
-
-.controls{
-margin-top:20px;
-font-size:20px;
-}
+body{background:#111;color:white;text-align:center;font-family:Arial}
+.book{width:900px;height:600px;margin:auto;display:flex;background:white}
+.page{width:50%;display:flex;justify-content:center;align-items:center}
+img{max-width:100%;max-height:100%}
+button,input{padding:10px;margin:10px}
 </style>
 </head>
 <body>
 
-<!-- Welcome -->
-<div id="welcome" class="screen active">
-<h1>📖 Welcome to Digital Reader</h1>
-<p>Read like a real book</p>
-<button onclick="openBook()">Enter Book</button>
-</div>
+<h1>📚 Digital Reader</h1>
 
-<!-- Reader -->
-<div id="reader" class="screen">
-
-<h2>📚 Digital Reader</h2>
-
-<input type="number" id="pageSearch" placeholder="Enter Page Number">
+<input id="pageSearch" placeholder="Page Number">
 <button onclick="goPage()">Go</button>
 
 <div class="book">
-<div class="page">
-<img id="leftPage">
+<div class="page"><img id="leftPage"></div>
+<div class="page"><img id="rightPage"></div>
 </div>
 
-<div class="page">
-<img id="rightPage">
-</div>
-</div>
-
-<div class="controls">
-<button onclick="prev()">⬅ Previous</button>
+<button onclick="prev()">Previous</button>
 <span id="counter"></span>
-<button onclick="next()">Next ➡</button>
-</div>
-
-</div>
+<button onclick="next()">Next</button>
 
 <script>
-
-const totalPages = 200;
-let current = 1;
-
-function openBook(){
-document.getElementById("welcome").classList.remove("active");
-document.getElementById("reader").classList.add("active");
-loadPages();
-}
+let current=1;
+const totalPages=200;
 
 function loadPages(){
-document.getElementById("leftPage").src=`page (${current}).png`;
-document.getElementById("rightPage").src=`page (${current+1}).png`;
-
-document.getElementById("counter").innerText=
-`Pages ${current} - ${current+1} of ${totalPages}`;
+document.getElementById("leftPage").src="page ("+current+").png";
+document.getElementById("rightPage").src="page ("+(current+1)+").png";
+document.getElementById("counter").innerHTML=
+"Pages "+current+" - "+(current+1)+" of "+totalPages;
 }
 
 function next(){
-if(current<totalPages-1){
-current+=2;
-loadPages();
-}
+if(current<199){current+=2;loadPages();}
 }
 
 function prev(){
-if(current>1){
-current-=2;
-loadPages();
-}
+if(current>1){current-=2;loadPages();}
 }
 
 function goPage(){
 let p=parseInt(document.getElementById("pageSearch").value);
-
-if(p>=1 && p<=totalPages){
-current=(p%2===0)?p-1:p;
+if(p>=1&&p<=200){
+current=(p%2==0)?p-1:p;
 loadPages();
-}else{
-alert("Invalid page");
 }
 }
 
+loadPages();
 </script>
 
 </body>
