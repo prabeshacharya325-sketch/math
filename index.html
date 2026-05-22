@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Digital Reader</title>
+
 <style>
 body{
 background:#111;
@@ -12,17 +13,13 @@ margin:0;
 padding:20px;
 }
 
-img{
-max-width:90%;
-max-height:85vh;
-border-radius:10px;
-box-shadow:0 0 20px black;
-background:white;
+h1{
+margin-bottom:20px;
 }
 
-button,input{
+input,button{
 padding:12px;
-margin:10px;
+margin:8px;
 font-size:16px;
 border:none;
 border-radius:8px;
@@ -33,7 +30,26 @@ background:#3498db;
 color:white;
 cursor:pointer;
 }
+
+img{
+width:900px;
+height:auto;
+max-width:95%;
+display:block;
+margin:20px auto;
+background:white;
+border-radius:10px;
+box-shadow:0 0 20px black;
+object-fit:contain;
+}
+
+#counter{
+font-size:22px;
+margin:15px;
+display:inline-block;
+}
 </style>
+
 </head>
 <body>
 
@@ -54,15 +70,23 @@ cursor:pointer;
 
 <script>
 
-let current = 1;
-const totalPages = 400; // change if needed
+let current=1;
+const totalPages=400; // change if needed
 
 function loadPage(){
-document.getElementById("bookPage").src=
-"page ("+current+").png";
 
+let img=document.getElementById("bookPage");
+
+img.src="page ("+current+").png";
+
+img.onload=function(){
 document.getElementById("counter").innerHTML=
-" Page "+current+" of "+totalPages;
+"Page "+current+" of "+totalPages;
+};
+
+img.onerror=function(){
+alert("Page "+current+" not found");
+};
 }
 
 function next(){
