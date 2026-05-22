@@ -3,57 +3,93 @@
 <head>
 <title>Digital Reader</title>
 <style>
-body{background:#111;color:white;text-align:center;font-family:Arial}
-.book{width:900px;height:600px;margin:auto;display:flex;background:white}
-.page{width:50%;display:flex;justify-content:center;align-items:center}
-img{max-width:100%;max-height:100%}
-button,input{padding:10px;margin:10px}
+body{
+background:#111;
+color:white;
+text-align:center;
+font-family:Arial;
+margin:0;
+padding:20px;
+}
+
+img{
+max-width:90%;
+max-height:85vh;
+border-radius:10px;
+box-shadow:0 0 20px black;
+background:white;
+}
+
+button,input{
+padding:12px;
+margin:10px;
+font-size:16px;
+border:none;
+border-radius:8px;
+}
+
+button{
+background:#3498db;
+color:white;
+cursor:pointer;
+}
 </style>
 </head>
 <body>
 
 <h1>📚 Digital Reader</h1>
 
-<input id="pageSearch" placeholder="Page Number">
+<input id="pageSearch" type="number" placeholder="Page Number">
 <button onclick="goPage()">Go</button>
 
-<div class="book">
-<div class="page"><img id="leftPage"></div>
-<div class="page"><img id="rightPage"></div>
-</div>
+<br>
 
-<button onclick="prev()">Previous</button>
+<img id="bookPage">
+
+<br>
+
+<button onclick="prev()">⬅ Previous</button>
 <span id="counter"></span>
-<button onclick="next()">Next</button>
+<button onclick="next()">Next ➡</button>
 
 <script>
-let current=1;
-const totalPages=200;
 
-function loadPages(){
-document.getElementById("leftPage").src="page ("+current+").png";
-document.getElementById("rightPage").src="page ("+(current+1)+").png";
+let current = 1;
+const totalPages = 400; // change if needed
+
+function loadPage(){
+document.getElementById("bookPage").src=
+"page ("+current+").png";
+
 document.getElementById("counter").innerHTML=
-"Pages "+current+" - "+(current+1)+" of "+totalPages;
+" Page "+current+" of "+totalPages;
 }
 
 function next(){
-if(current<199){current+=2;loadPages();}
+if(current<totalPages){
+current++;
+loadPage();
+}
 }
 
 function prev(){
-if(current>1){current-=2;loadPages();}
+if(current>1){
+current--;
+loadPage();
+}
 }
 
 function goPage(){
 let p=parseInt(document.getElementById("pageSearch").value);
-if(p>=1&&p<=200){
-current=(p%2==0)?p-1:p;
-loadPages();
+
+if(p>=1 && p<=totalPages){
+current=p;
+loadPage();
 }
 }
 
-loadPages();
+loadPage();
+
 </script>
 
 </body>
