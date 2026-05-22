@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Book</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#1b1b1b;
+color:white;
+text-align:center;
+}
+
+.screen{
+display:none;
+padding:40px;
+}
+
+.active{
+display:block;
+}
+
+button{
+padding:12px 20px;
+margin:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#3498db;
+color:white;
+font-size:16px;
+}
+
+input{
+padding:10px;
+width:220px;
+border-radius:8px;
+border:none;
+font-size:16px;
+}
+
+.book{
+width:900px;
+height:600px;
+margin:auto;
+display:flex;
+background:#8b5a2b;
+border-radius:15px;
+box-shadow:0 0 40px black;
+overflow:hidden;
+}
+
+.page{
+width:50%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+border:1px solid #ddd;
+}
+
+.page img{
+max-width:100%;
+max-height:100%;
+object-fit:contain;
+}
+
+.controls{
+margin-top:20px;
+font-size:18px;
+}
+</style>
+</head>
+<body>
+
+<!-- Welcome -->
+<div id="welcome" class="screen active">
+<h1>📖 Welcome to Digital Book</h1>
+<p>Read your book like a real book</p>
+<button onclick="show('login')">Enter Book</button>
+</div>
+
+<!-- Login -->
+<div id="login" class="screen">
+<h1>Login</h1>
+<input id="user" placeholder="Username"><br><br>
+<input id="pass" type="password" placeholder="Password"><br><br>
+<button onclick="login()">Login</button>
+</div>
+
+<!-- Book -->
+<div id="bookScreen" class="screen">
+
+<h2>📚 Digital Reader</h2>
+
+<input type="number" id="pageSearch" placeholder="Search Page Number">
+<button onclick="goPage()">Go</button>
+
+<div class="book">
+<div class="page">
+<img id="leftPage">
+</div>
+
+<div class="page">
+<img id="rightPage">
+</div>
+</div>
+
+<div class="controls">
+<button onclick="prev()">⬅ Previous</button>
+<span id="counter"></span>
+<button onclick="next()">Next ➡</button>
+</div>
+
+</div>
+
+<script>
+
+const totalPages = 200; // change if needed
+let current = 1;
+
+function show(id){
+document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+}
+
+function login(){
+let u=document.getElementById("user").value;
+let p=document.getElementById("pass").value;
+
+if(u==="admin" && p==="1234"){
+show("bookScreen");
+loadPages();
+}else{
+alert("Wrong username or password");
+}
+}
+
+function loadPages(){
+
+document.getElementById("leftPage").src=`pages/page ${current}.jpg`;
+document.getElementById("rightPage").src=`pages/page ${current+1}.jpg`;
+
+document.getElementById("counter").innerText=
+`Pages ${current} - ${current+1} of ${totalPages}`;
+}
+
+function next(){
+if(current<totalPages-1){
+current+=2;
+loadPages();
+}
+}
+
+function prev(){
+if(current>1){
+current-=2;
+loadPages();
+}
+}
+
+function goPage(){
+let p=parseInt(document.getElementById("pageSearch").value);
+
+if(p>=1 && p<=totalPages){
+current=(p%2===0)?p-1:p;
+loadPages();
+}else{
+alert("Invalid page number");
+}
+}
+
+</script>
+
+</body>
+</html>
